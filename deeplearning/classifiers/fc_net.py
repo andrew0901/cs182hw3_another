@@ -1,5 +1,3 @@
-import math
-
 import numpy as np
 
 from deeplearning.layer_utils import *
@@ -132,8 +130,7 @@ class FullyConnectedNet(object):
 
     def __init__(self, hidden_dims, input_dim=3 * 32 * 32, num_classes=10,
                  dropout=0, use_batchnorm=False, reg=0.0,
-                 weight_scale=1e-2, dtype=np.float32, seed=None,
-                 initialization='random'):
+                 weight_scale=1e-2, dtype=np.float32, seed=None):
         """
         Initialize a new FullyConnectedNet.
 

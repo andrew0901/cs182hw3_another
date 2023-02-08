@@ -62,7 +62,7 @@ def sgd_momentum(w, dw, config=None):
 
     next_w = None
     #############################################################################
-    # TODO: Implement the momentum update formula. Store the updated value in   #
+    # HW2: Implement the momentum update formula. Store the updated value in   #
     # the next_w variable. You should also use and update the velocity v.       #
     #############################################################################
     v = config['momentum'] * v + dw
@@ -95,7 +95,7 @@ def rmsprop(w, dw, config=None):
 
     next_w = None
     #############################################################################
-    # TODO: Implement the RMSprop update formula, storing the next value of x   #
+    # HW2: Implement the RMSprop update formula, storing the next value of x   #
     # in the next_w variable. Don't forget to update cache value stored in      #
     # config['cache'].                                                          #
     #############################################################################
@@ -134,7 +134,7 @@ def adam(w, dw, config=None):
 
     next_w = None
     #############################################################################
-    # TODO: Implement the Adam update formula, storing the next value of x in   #
+    # HW2: Implement the Adam update formula, storing the next value of x in   #
     # the next_w variable. Don't forget to update the m, v, and t variables     #
     # stored in config.                                                         #
     #############################################################################
