@@ -14,16 +14,19 @@ class NeuralNetwork(nn.Module):
         # Feel free to check the hints of tensor shapes in the `forward` method
         #
         # Refer to pytorch.org for API documentations.
+        # For NN modules: https://pytorch.org/docs/stable/nn.html
         #
         # The first conv block consists of a conv layer, an optional spatial
         #  batch normalization layer, a ReLU activation layer, and a maxpooling
         #  layer:
         # [conv1] -> ([bn1]) -> [relu1] -> [pool1]
         #
-        # All conv layers in this neural network uses a kernel size of 3 and a
-        #  padding of 1.
+        # All conv layers in this neural network uses a kernel size of 3x3 and
+        #  a padding of 1 on all sides (so that the height and width of the
+        #  feature map does not change after the conv layer)
         #
-        # Batch norm is enabled if and only if `do_batchnorm` is true
+        # Batch norm is enabled if and only if `do_batchnorm` is true. It
+        #  should be a spatial batch norm layer for 2D images.
         #
         # All max-pooling layers in this neural network pools each non-
         #  overlapping 2x2 patch to a single pixel, shrinking the height/width
