@@ -54,7 +54,7 @@ def affine_bn_relu_backward(dout, cache):
     """
     fc_cache, bn_cache, relu_cache = cache
     da = relu_backward(dout, relu_cache)
-    da, dgamma, dbeta = batchnorm_backward_alt(da, bn_cache)
+    da, dgamma, dbeta = batchnorm_backward(da, bn_cache)
     dx, dw, db = affine_backward(da, fc_cache)
     return dx, dw, db, dgamma, dbeta
 
