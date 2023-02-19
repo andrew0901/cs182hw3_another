@@ -1,0 +1,1 @@
+{"test_acc": 44.72, "hparams": {"batch_size": 32, "lr": 0.0008, "momentum": 0.85, "lr_decay": 0.97, "optim_type": "adam", "l2_reg": 0.0001, "epochs": 7, "do_batchnorm": true, "p_dropout": 0.15}, "n_params": 707990, "n_steps": 10941}

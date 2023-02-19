@@ -111,7 +111,6 @@ class TwoLayerNet(object):
 
         return loss, grads
 
-
 class FullyConnectedNet(object):
     """
     A fully-connected neural network with an arbitrary number of hidden layers,
@@ -243,7 +242,27 @@ class FullyConnectedNet(object):
         # self.bn_params[1] to the forward pass for the second batch normalization #
         # layer, etc.                                                              #
         ############################################################################
-        raise NotImplementedError()
+        Z = []
+        BN_caches = []
+        DO_caches = []
+        r = np.reshape(X, (X.shape[0], -1))
+        for i in range(self.num_layers):
+          Z.append(r)
+          W = self.params["W" + str(i + 1)]
+          b = self.params["b" + str(i + 1)]
+          r = np.matmul(r, W) + b
+          
+          if self.use_batchnorm and i != self.num_layers - 1:
+            r, cache = batchnorm_forward(r, self.params['gamma' + str(i + 1)], self.params['beta' + str(i + 1)], self.bn_params[i])
+            BN_caches.append(cache)
+
+          if i != self.num_layers - 1:
+            r = r * ((r > 0) * 1) #relu
+          
+          if self.use_dropout and i != self.num_layers - 1:
+            r, cache = dropout_forward(r, self.dropout_param)
+            DO_caches.append(cache)
+        scores = r
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -267,7 +286,38 @@ class FullyConnectedNet(object):
         # automated tests, make sure that your L2 regularization includes a factor #
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
-        raise NotImplementedError()
+        E = np.exp(r) #E of size (N, C)
+        _sum = np.repeat(np.sum(E, axis = 1).reshape(-1,1), r.shape[1], axis = 1)
+        S = E / _sum #S of size (N, C)
+        Y = np.zeros(S.shape)
+        for i in range(Y.shape[0]):
+          Y[i][y[i]] = 1
+        loss = (np.sum((0 - np.log(S)) * Y))/ X.shape[0]
+        for i in range(self.num_layers):
+          W = self.params["W" + str(i + 1)]
+          loss += 0.5 * self.reg * np.sum(W ** 2)
+
+        dout = (S - Y) / X.shape[0]
+        for i in range(self.num_layers):
+          label = self.num_layers - i
+          z = Z[self.num_layers - 1 - i]
+          W = self.params["W" + str(label)]
+          grads["W" + str(label)] = np.matmul(z.T, dout) + self.reg * W
+          grads["b" + str(label)] = np.matmul(dout.T, np.ones(dout.shape[0]))
+          dout = np.matmul(dout, W.T)
+
+          if self.use_dropout and i != self.num_layers - 1:
+            cache = DO_caches[self.num_layers - 2 - i]
+            dout = dropout_backward(dout, cache)
+
+          dout = dout * ((z > 0) * 1)
+          
+          if self.use_batchnorm and i != self.num_layers - 1:
+            cache = BN_caches[self.num_layers - 2 - i]
+            dout, dgamma, dbeta = batchnorm_backward(dout, cache)
+            grads["gamma" + str(label - 1)] = dgamma
+            grads["beta" + str(label - 1)] = dbeta
+
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################

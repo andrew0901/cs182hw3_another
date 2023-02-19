@@ -34,11 +34,11 @@ class NeuralNetwork(nn.Module):
         #
         # The first conv block has 16 filters
         #######################################################################
-        self.conv1 = NotImplementedError()
+        self.conv1 = torch.nn.Conv2d(3, 16, 3, 1, 1)
         if do_batchnorm:
-            self.bn1 = NotImplementedError()
-        self.relu1 = NotImplementedError()
-        self.pool1 = NotImplementedError()
+            self.bn1 = torch.nn.BatchNorm2d(16)
+        self.relu1 = torch.nn.ReLU()
+        self.pool1 = torch.nn.MaxPool2d(2,2)
         #######################################################################
         # End of your code
         #######################################################################
@@ -49,7 +49,11 @@ class NeuralNetwork(nn.Module):
         # The second convolutional block has the same structure as the first,
         #  except that the conv layer has 32 filters
         #######################################################################
-        raise NotImplementedError()
+        self.conv2 = torch.nn.Conv2d(16, 32, 3, 1, 1)
+        if do_batchnorm:
+            self.bn2 = torch.nn.BatchNorm2d(32)
+        self.relu2 = torch.nn.ReLU()
+        self.pool2 = torch.nn.MaxPool2d(2,2)
         #######################################################################
         # End of your code
         #######################################################################
@@ -63,7 +67,10 @@ class NeuralNetwork(nn.Module):
         # The conv layer is followed by an optional spatial batch norm layer,
         #  and a ReLU activation layer. No pooling in this block.
         #######################################################################
-        raise NotImplementedError()
+        self.conv3 = torch.nn.Conv2d(32, 64, 3, 2, 1)
+        if do_batchnorm:
+            self.bn3 = torch.nn.BatchNorm2d(64)
+        self.relu3 = torch.nn.ReLU()
         #######################################################################
         # End of your code
         #######################################################################
@@ -82,11 +89,11 @@ class NeuralNetwork(nn.Module):
         # Feel free to check the hints of tensor shapes in the `forward` method
         #
         #######################################################################
-        self.fc1 = NotImplementedError()
-        self.relu4 = NotImplementedError()
+        self.fc1 = torch.nn.Linear(1024, 256)
+        self.relu4 = torch.nn.ReLU()
         if p_dropout > 0.0:
-            self.drop = NotImplementedError()
-        self.fc2 = NotImplementedError()
+            self.drop = torch.nn.Dropout(p_dropout)
+        self.fc2 = torch.nn.Linear(256, 100)
         #######################################################################
         # End of your code
         #######################################################################

@@ -6,13 +6,13 @@ from argparse import Namespace
 #######################################################################
 HP = Namespace(
     batch_size=32,
-    lr=1e-3,
-    momentum=0.9,
-    lr_decay=0.99,
+    lr=8e-4,
+    momentum=0.85,
+    lr_decay=0.97,
     optim_type="adam",
-    l2_reg=0.0,
-    epochs=5,
+    l2_reg=0.0001,
+    epochs=7,
     do_batchnorm=True,
-    p_dropout=0.2
+    p_dropout=0.15
 )
 #######################################################################
